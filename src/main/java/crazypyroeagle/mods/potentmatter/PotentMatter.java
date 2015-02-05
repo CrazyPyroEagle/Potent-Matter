@@ -25,7 +25,7 @@ public class PotentMatter {
 	private static ServerProxy proxy;
 	
 	public void preInit(FMLPreInitializationEvent event) {
-		// Load config + textures?
+		// Load config
 	}
 	
 	@EventHandler
