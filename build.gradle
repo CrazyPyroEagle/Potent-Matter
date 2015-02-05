@@ -1,0 +1,109 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    }
+}
+
+apply plugin: 'forge'
+
+def minecraftVersion = "1.8"
+def forgeVersion = "11.14.0.1299"
+def buildProperties = new Properties()
+buildProperties.load(new FileReader(file("build.properties")))
+
+def displayVersion = buildProperties.version_major + "." + buildProperties.version_minor + "." + buildProperties.version_revision + " Build #" + buildProperties.build
+version = minecraftVersion + "-" + buildProperties.version_major + "." + buildProperties.version_minor + "." + buildProperties.version_revision + "_B" + buildProperties.build
+group= "crazypyroeagle.mods.potentmatter" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "PotentMatter"
+
+minecraft {
+    version = minecraftVersion + "-" + forgeVersion
+    if (file("../.minecraft").exists()) {
+		runDir = "../.minecraft"
+	} else {
+		runDir = "eclipse"
+	}
+	
+	replaceIn "PotentMatter.java"
+	replace "@VERSION_INFO@", buildProperties.version_info
+    
+    // the mappings can be changed at any time, and must be in the following format.
+    // snapshot_YYYYMMDD   snapshot are built nightly.
+    // stable_#            stables are built at the discretion of the MCP team.
+    // Use non-default mappings at your own risk. they may not allways work.
+    // simply re-run your setup task after changing the mappings to update your workspace.
+    mappings = "snapshot_nodoc_20141130"
+}
+
+dependencies {
+    // you may put jars on which you depend on in ./libs
+    // or you may define them like so..
+    //compile "some.group:artifact:version:classifier"
+    //compile "some.group:artifact:version"
+      
+    // real examples
+    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
+    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
+
+    // for more info...
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+
+}
+
+processResources
+{
+	// exclude xcf files, as they are for development only
+    exclude '**/*.xcf'
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include '*.info'
+
+        // replace version and mcversion
+        expand 'version': displayVersion, 'mcversion': project.minecraft.version
+    }
+
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude '**/*.info'
+    }
+}
+
+task update << {
+	def properties = new Properties()
+	properties.load(new FileReader(file("build.properties")))
+	
+	if (project.hasProperty("updateto")) {
+		properties.build = (properties.build.toInteger() + 1).toString()
+		
+		if (updateto == "major") {
+			properties.version_major = (properties.version_major.toInteger() + 1).toString()
+			properties.version_minor = "0"
+			properties.version_revision = "0"
+		} else if (updateto == "minor") {
+			properties.version_minor = (properties.version_minor.toInteger() + 1).toString()
+			properties.version_revision = "0"
+		} else if (updateto == "revision") {
+			properties.version_revision = (properties.version_revision.toInteger() + 1).toString()
+		} else {
+			println "Version was not changed!"
+			properties.build = (properties.build.toInteger() - 1).toString()
+		}
+		
+		properties.store(file("build.properties").newWriter(), null)
+	} else {
+		println "Version was not changed!\nTo change the version, change the \"updateto\" property to \"major\", \"minor\" or \"revision\""
+	}
+}

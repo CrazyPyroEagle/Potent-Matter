@@ -1,12 +1,35 @@
-*.class
+	# Ignore OS-created files (we don't want these polluting the repository)
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+	# Ignore log files
+logs
+*.logs
 
-# Package Files #
-*.jar
-*.war
-*.ear
+	# Ignore Eclipse IDE files
+eclipse 
+.settings
+.metadata
+.classpath
+.project
+bin
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+	# Ignore IntelliJ IDEA files
+atlassian-ide-plugin.xml
+out
+.idea
+*.iml
+*.ipr
+*.iws
+
+	# Ignore files that don't need distributing
+build
+.gradle
+
+	# Ignore files that [might] be used or that are symbolic links
+builds
