@@ -1,0 +1,17 @@
+{
+  modListVersion: 2,
+  modList: [{
+    "modid": "potentmatter",
+    "name": "Potent Matter",
+    "description": "Warning! This is a very early version",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": ["CrazyPyroEagle"],
+    "credits": "To all who support me, including YOU!",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }]
+}

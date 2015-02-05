@@ -1,0 +1,10 @@
+	~~~ IDEAS ~~~
+Energy Node:
+  Allows energy transportation over long distances without the use of pipes.
+Ion Battery:
+  Stores energy by turning it into ions and anti-ions and then magnetically separating the ions from the anti-ions.
+  Energy is taken out by colliding an ion with an anti-ion and then the energy produced by the collision is absorbed.
+Item Transformer (find better name):
+  Transforms items into energy and back so that they can be transported at high speeds.
+Fluid Transformer (find better name):
+  Transforms fluids into energy and back so that they can be transported at high speeds.
