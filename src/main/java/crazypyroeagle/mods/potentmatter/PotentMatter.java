@@ -1,13 +1,12 @@
 package crazypyroeagle.mods.potentmatter;
 
-import crazypyroeagle.mods.potentmatter.item.ItemWrench;
+import crazypyroeagle.mods.potentmatter.item.ModItems;
 import crazypyroeagle.mods.potentmatter.server.ServerProxy;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @Mod(modid = PotentMatter.MOD_ID, name = PotentMatter.MOD_NAME, version = PotentMatter.MOD_VERSION)
 public class PotentMatter {
@@ -33,6 +32,6 @@ public class PotentMatter {
 	public void init(FMLInitializationEvent event) {
 		proxy.registerRenderers();
 		
-		GameRegistry.registerItem(new ItemWrench("wrench"), "wrench");
+		ModItems.initItems();
 	}
 }
