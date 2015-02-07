@@ -45,8 +45,6 @@ public class BlockEnergyPipe extends Block implements ITileEntityProvider, IConn
 		return false;
 	}
 	
-	
-
 	@SideOnly(Side.CLIENT)
 	@Override
 	public EnumWorldBlockLayer getBlockLayer() {
