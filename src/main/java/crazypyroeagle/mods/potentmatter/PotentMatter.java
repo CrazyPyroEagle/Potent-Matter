@@ -1,7 +1,10 @@
 package crazypyroeagle.mods.potentmatter;
 
+import crazypyroeagle.mods.potentmatter.block.ModBlocks;
 import crazypyroeagle.mods.potentmatter.item.ModItems;
 import crazypyroeagle.mods.potentmatter.server.ServerProxy;
+import crazypyroeagle.mods.potentmatter.tileentity.ModTileEntities;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -24,14 +27,35 @@ public class PotentMatter {
 	@SidedProxy(clientSide="crazypyroeagle.mods.potentmatter.client.ClientProxy", serverSide="crazypyroeagle.mods.potentmatter.server.ServerProxy")
 	private static ServerProxy proxy;
 	
+	public static EnumFacing getOppositeDirection(EnumFacing direction) {
+		switch (direction) {
+			case UP:
+				return EnumFacing.DOWN;
+			case DOWN:
+				return EnumFacing.UP;
+			case NORTH:
+				return EnumFacing.SOUTH;
+			case SOUTH:
+				return EnumFacing.SOUTH;
+			case WEST:
+				return EnumFacing.EAST;
+			case EAST:
+				return EnumFacing.WEST;
+			default:
+				return null;
+		}
+	}
+	
 	public void preInit(FMLPreInitializationEvent event) {
 		// Load config
 	}
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		proxy.registerRenderers();
-		
+		ModBlocks.initBlocks();
 		ModItems.initItems();
+		ModTileEntities.initTileEntities();
+
+		proxy.registerRenderers();
 	}
 }

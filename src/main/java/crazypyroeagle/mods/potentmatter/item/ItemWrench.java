@@ -5,8 +5,12 @@ import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 
 public class ItemWrench extends ItemTool {
 	private Set<String> toolClasses;
@@ -17,6 +21,11 @@ public class ItemWrench extends ItemTool {
 		this.setFull3D();
 		this.setMaxDamage(128);
 		toolClasses = ImmutableSet.of("wrench");
+	}
+	
+	@Override
+	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+		return worldIn.getBlockState(pos).getBlock().onBlockActivated(worldIn, pos, worldIn.getBlockState(pos), playerIn, side, hitX, hitY, hitZ);
 	}
 	
 	@Override
