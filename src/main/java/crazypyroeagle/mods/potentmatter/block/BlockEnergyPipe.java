@@ -44,6 +44,8 @@ public class BlockEnergyPipe extends Block implements ITileEntityProvider, IConn
 	public boolean isOpaqueCube() {
 		return false;
 	}
+	
+	
 
 	@SideOnly(Side.CLIENT)
 	@Override

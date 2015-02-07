@@ -17,8 +17,8 @@
 	        "shade": false,
 	        "faces": {
 	            "down":  { "uv": [ 6, 0, 16, 6 ], "texture": "#texture", "rotation": 90 },
-	            "up":    { "uv": [ 6, 0, 16, 6 ], "texture": "#texture", "rotation": 90 },
-	            "west":  { "uv": [ 6, 0, 16, 6 ], "texture": "#texture" },
+	            "up":    { "uv": [ 6, 0, 16, 6 ], "texture": "#texture", "rotation": 270 },
+	            "west":  { "uv": [ 6, 0, 16, 6 ], "texture": "#texture", "rotation": 180 },
 	            "east":  { "uv": [ 6, 0, 16, 6 ], "texture": "#texture" }
 	        }
         }, {
