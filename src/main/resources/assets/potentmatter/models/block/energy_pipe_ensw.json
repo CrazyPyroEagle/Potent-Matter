@@ -1,6 +1,6 @@
 {
-	"parent": "potentmatter:block/energy_pipe",
+	"parent": "potentmatter:block/pipe_ensw",
 	"textures": {
-		"texture": "blocks/iron_block"
+		"texture": "potentmatter:blocks/energy_pipe"
 	}
 }
