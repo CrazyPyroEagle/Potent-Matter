@@ -12,6 +12,6 @@
     "credits": "To all who support me, including YOU!",
     "logoFile": "",
     "screenshots": [],
-    "dependencies": []
+    "requiredMods": ["Forge"]
   }]
 }
