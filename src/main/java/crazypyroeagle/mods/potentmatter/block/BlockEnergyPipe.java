@@ -12,7 +12,9 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumWorldBlockLayer;
@@ -45,6 +47,11 @@ public class BlockEnergyPipe extends Block implements ITileEntityProvider, IConn
 		return false;
 	}
 	
+	@Override
+	public boolean isFullCube() {
+		return false;
+	}
+	
 	@SideOnly(Side.CLIENT)
 	@Override
 	public EnumWorldBlockLayer getBlockLayer() {
@@ -74,7 +81,8 @@ public class BlockEnergyPipe extends Block implements ITileEntityProvider, IConn
 				IBlockState metadata = world.getBlockState(pos);		// Store this since we'll be deleting the block
 				world.setBlockToAir(pos);
 				player.inventory.getCurrentItem().damageItem(1, player);
-				this.dropBlockAsItem(world, pos, metadata, 1);
+				if (!world.isRemote && !((EntityPlayerMP) player).theItemInWorldManager.isCreative())
+					this.dropBlockAsItem(world, pos, metadata, 1);
 				return true;
 			}
 		}
@@ -83,15 +91,23 @@ public class BlockEnergyPipe extends Block implements ITileEntityProvider, IConn
 	
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-		IConnectable connectable = (IConnectable) worldIn.getBlockState(pos).getBlock();
-		float x1 = connectable.checkConnection(worldIn.getBlockState(pos.west()).getBlock(), EnumFacing.WEST) ? 0F : 5F/16F;
-		float y1 = connectable.checkConnection(worldIn.getBlockState(pos.down()).getBlock(), EnumFacing.DOWN) ? 0F : 5F/16F;
-		float z1 = connectable.checkConnection(worldIn.getBlockState(pos.north()).getBlock(), EnumFacing.NORTH) ? 0F : 5F/16F;
-		float x2 = connectable.checkConnection(worldIn.getBlockState(pos.east()).getBlock(), EnumFacing.EAST) ? 1F : 11F/16F;
-		float y2 = connectable.checkConnection(worldIn.getBlockState(pos.up()).getBlock(), EnumFacing.UP) ? 1F : 11F/16F;
-		float z2 = connectable.checkConnection(worldIn.getBlockState(pos.south()).getBlock(), EnumFacing.SOUTH) ? 1F : 11F/16F;
-		
-		this.setBlockBounds(x1, y1, z1, x2, y2, z2);
+		if (worldIn.getBlockState(pos).getBlock() instanceof IConnectable) {
+			IConnectable connectable = (IConnectable) worldIn.getBlockState(pos).getBlock();
+			float x1 = connectable.checkConnection(worldIn.getBlockState(pos.west()).getBlock(), EnumFacing.WEST) ? 0F : 5F/16F;
+			float y1 = connectable.checkConnection(worldIn.getBlockState(pos.down()).getBlock(), EnumFacing.DOWN) ? 0F : 5F/16F;
+			float z1 = connectable.checkConnection(worldIn.getBlockState(pos.north()).getBlock(), EnumFacing.NORTH) ? 0F : 5F/16F;
+			float x2 = connectable.checkConnection(worldIn.getBlockState(pos.east()).getBlock(), EnumFacing.EAST) ? 1F : 11F/16F;
+			float y2 = connectable.checkConnection(worldIn.getBlockState(pos.up()).getBlock(), EnumFacing.UP) ? 1F : 11F/16F;
+			float z2 = connectable.checkConnection(worldIn.getBlockState(pos.south()).getBlock(), EnumFacing.SOUTH) ? 1F : 11F/16F;
+			
+			this.setBlockBounds(x1, y1, z1, x2, y2, z2);
+		}
+	}
+	
+	@Override
+	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+		this.setBlockBoundsBasedOnState(worldIn, pos);
+		return super.getCollisionBoundingBox(worldIn, pos, state);
 	}
 	
 	@Override
